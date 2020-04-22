@@ -13,6 +13,8 @@ def get_latest_date(file_list: list) -> datetime.datetime:
     will return the datetime.datetime object representing
     that date.
     """
+    if not file_list:
+        return None
     date_list = [date_time_from_filename(f) for f in file_list]
     return sorted(date_list)[-1]
 
@@ -39,6 +41,7 @@ if __name__ == "__main__":
     """
     todo_file_path_dir = os.path.join("/home", "snewhook", "todo_lists")
     todo_file_path = os.path.join(todo_file_path_dir,  "*.todo")
+
     todo_files = glob.glob(todo_file_path)
     today = datetime.datetime.now()
     formatting_string = '%A_%d_%B_%Y'
@@ -51,7 +54,9 @@ if __name__ == "__main__":
     new_file_name = os.path.join(
             todo_file_path_dir,
             ''.join((today_formatted, ".todo")))
-    if datetime.datetime.now().date() == latest_todo_list.date():
+    if len(todo_files) < 1:
+        call([EDITOR, new_file_name])
+    elif datetime.datetime.now().date() == latest_todo_list.date():
         call([EDITOR, latest_file_name])
     else:
         with open(latest_file_name) as latest_file:
