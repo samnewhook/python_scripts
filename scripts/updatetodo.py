@@ -26,6 +26,8 @@ def date_time_from_filename(file_name):
         FULLDAYNAME_DAY_MONTHNAME_YEAR.todo
         Wednesday_15_April_2020.todo
     """
+    if not file_name:
+        return None
     f_name = os.path.splitext(os.path.basename(file_name))[0]
     day_month_year = f_name.split('_')
     return datetime.datetime(
